@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qwen-codebase-trainer"
+version = "0.1.0"
+description = "Local, security-screened code retrieval and Qwen QLoRA preparation"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26,<3", "qdrant-client>=1.12,<2", "PyYAML>=6,<7", "tree-sitter>=0.24,<0.26", "tree-sitter-go>=0.23,<0.26", "mcp>=1.9,<2", "filelock>=3.16,<4"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.11,<1", "mypy>=1.15,<2", "types-PyYAML>=6"]
+embeddings = ["sentence-transformers>=3.4,<6"]
+inference = ["torch>=2.6", "transformers>=4.51,<5", "peft>=0.15,<1", "accelerate>=1.5", "bitsandbytes>=0.45; sys_platform == 'linux'"]
+
+[project.scripts]
+qwen-codebase = "src.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]  # Prompt/regex literals may exceed the formatter line length.
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

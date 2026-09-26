@@ -1,0 +1,47 @@
+base_model: Qwen/Qwen3-8B
+trust_remote_code: false
+adapter: qlora
+load_in_4bit: true
+strict: false
+chat_template: qwen3
+datasets:
+  - path: data/train.jsonl
+    type: chat_template
+    field_messages: messages
+    roles_to_train: [assistant]
+    train_on_eos: turn
+test_datasets:
+  - path: data/validation.jsonl
+    type: chat_template
+    field_messages: messages
+    roles_to_train: [assistant]
+    train_on_eos: turn
+val_set_size: 0
+dataset_prepared_path: artifacts/axolotl-prepared
+output_dir: outputs/qwen3-8b-lora
+sequence_len: 2048
+sample_packing: false
+pad_to_sequence_len: false
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_linear: true
+micro_batch_size: 1
+gradient_accumulation_steps: 16
+num_epochs: 2
+optimizer: paged_adamw_8bit
+learning_rate: 0.0001
+lr_scheduler: cosine
+warmup_ratio: 0.03
+weight_decay: 0.01
+bf16: auto
+fp16: false
+gradient_checkpointing: true
+flash_attention: false
+logging_steps: 10
+eval_steps: 50
+save_steps: 100
+save_total_limit: 2
+save_safetensors: true
+seed: 42
+train_on_inputs: false
