@@ -38,7 +38,10 @@ def main() -> None:
         "WANDB_MODE": "disabled",
         "TOKENIZERS_PARALLELISM": "false",
         "PYTHONUNBUFFERED": "1",
+        "PATH": str(executable.parent) + os.pathsep + os.environ.get("PATH", ""),
     }
+    # The host Nix shell may inject Python 3.14 packages into this Python 3.11 venv.
+    environment.pop("PYTHONPATH", None)
     with (directory / "train.log").open("a", encoding="utf-8") as log:
         process = subprocess.Popen(
             [str(executable), "train", str(args.config.resolve())],

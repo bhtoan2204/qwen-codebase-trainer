@@ -276,3 +276,34 @@ training/merging, semantic embeddings, external teachers, and the four-way model
 comparison were not run. NVIDIA driver inspection found an RTX 5070 with 11.94 GiB;
 PyTorch is absent from the lightweight environment, so CUDA execution and bf16
 remain unverified. No expensive training run was started.
+
+## Completed local training run (2026-09-27)
+
+A Qwen3-4B QLoRA adapter is now available at `outputs/qwen3-4b-lora`.
+The run completed 99 updates (configured for two epochs) in 435 seconds of training,
+using 790 training and 81 validation examples with location-only tasks excluded.
+The final validation loss was 0.04889 versus 4.136 initially; this is a result on
+this templated dataset, not evidence of general coding-quality improvement.
+GPU utilization reached 99% during the validated workload.
+
+The working configuration is `configs/qwen3-4b-local.yml`: bf16, batch 4,
+gradient accumulation 4, sequence length 2048, grouped lengths, SDPA, and Liger
+fused cross entropy. The ordinary batch-4 configuration exceeded VRAM on long
+samples; the Liger configuration passed and completed the full run.
+`make config` would replace generated settings, so preserve this dedicated config.
+
+Use the existing training environment to load the adapter (avoids reinstalling or
+downgrading its validated Transformers/CUDA stack):
+
+```bash
+cd /home/toan/src/payment-src/qwen-codebase-trainer
+env -u PYTHONPATH BASE_MODEL=Qwen/Qwen3-4B \
+  ADAPTER_PATH="$PWD/outputs/qwen3-4b-lora" \
+  .venv-train/bin/python -m src.cli chat
+```
+
+`env -u PYTHONPATH` prevents the host Nix Python packages from leaking into the
+Python 3.11 environment. See `artifacts/training-run/result.json`, `status.json`,
+`train.log`, and `requirements.lock.txt` for the completed run and exact environment.
+This later training run supersedes the earlier preparation-only validation notes
+for CUDA training and model inference; merging and the four-way evaluation remain separate.
