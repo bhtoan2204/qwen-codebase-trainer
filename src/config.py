@@ -30,7 +30,12 @@ class Settings:
         ).resolve()
     )
     model: str = field(default_factory=lambda: os.getenv("BASE_MODEL", "Qwen/Qwen3-8B"))
-    embedding: str = field(default_factory=lambda: os.getenv("EMBEDDING_MODEL", "hashing-v1"))
+    embedding: str = field(
+    default_factory=lambda: os.getenv(
+            "EMBEDDING_MODEL",
+            "sentence-transformers/all-MiniLM-L6-v2",
+        )
+    )
     max_file_bytes: int = field(default_factory=lambda: int(os.getenv("MAX_FILE_BYTES", "1000000")))
     blame: bool = field(default_factory=lambda: flag("INCLUDE_BLAME"))
 

@@ -45,19 +45,39 @@ def record(c: Chunk, task: str, prompt: str, answer: str) -> dict[str, Any]:
 
 def offline_examples(c: Chunk) -> list[dict[str, Any]]:
     """Only mechanically supported targets; ambiguous reasoning is left to reviewed teachers."""
+
     if c.language != "go" or c.symbol_type not in {"function", "method", "struct", "interface"}:
         return []
+
     if len(c.content) > 9000 or len(c.content.splitlines()) < 3:
         return []
+
     prompt = f"Inspect this local code ({c.reference}):\n```go\n{c.content}\n```\n"
     rows = []
+
     calls = c.facts.get("calls", [])
-    if calls:
+
+    TRIVIAL_CALLS = {
+        "fmt.Errorf",
+        "errors.New",
+        "string",
+        "make",
+    }
+
+    meaningful_calls = [x for x in calls if x not in TRIVIAL_CALLS]
+
+    include_dependency = (
+        len(meaningful_calls) >= 3
+        and int(digest(c.reference + ":dependencies")[:8], 16) % 100 < 30
+    )
+
+    if include_dependency:
         answer = (
             f"The visible call targets in `{c.reference}` are: "
-            + ", ".join(f"`{x}`" for x in calls)
+            + ", ".join(f"`{x}`" for x in meaningful_calls)
             + ". These are syntactic call sites; runtime implementations and transitive dependencies require additional context."
         )
+
         rows.append(
             record(
                 c,
@@ -66,9 +86,16 @@ def offline_examples(c: Chunk) -> list[dict[str, Any]]:
                 answer,
             )
         )
+
     doc = c.facts.get("doc", "")
+
     if doc:
-        answer = f"The author documents `{c.symbol}` as:\n{doc}\n\nThis is the documented contract at `{c.reference}`, not independent proof of the implementation's behavior."
+        answer = (
+            f"The author documents `{c.symbol}` as:\n{doc}\n\n"
+            f"This is the documented contract at `{c.reference}`, "
+            "not independent proof of the implementation's behavior."
+        )
+
         rows.append(
             record(
                 c,
@@ -77,46 +104,70 @@ def offline_examples(c: Chunk) -> list[dict[str, Any]]:
                 answer,
             )
         )
+
     evidence = {
         "concurrency": [
             x
             for x in c.facts.get("constructs", [])
-            if x in {"go_statement", "select_statement", "send_statement", "receive_statement"}
+            if x in {
+                "go_statement",
+                "select_statement",
+                "send_statement",
+                "receive_statement",
+            }
         ],
         "transactions": [
             x
             for x in calls
-            if x.rsplit(".", 1)[-1] in {"Begin", "BeginTx", "Commit", "Rollback", "Transaction"}
+            if x.rsplit(".", 1)[-1]
+            in {
+                "Begin",
+                "BeginTx",
+                "Commit",
+                "Rollback",
+                "Transaction",
+                "WithTransaction",
+            }
         ],
         "errors": [
             x
             for x in calls
-            if x in {"fmt.Errorf", "errors.New", "errors.Wrap", "errors.Is", "errors.As"}
+            if x in {
+                "fmt.Errorf",
+                "errors.New",
+                "errors.Wrap",
+                "errors.Is",
+                "errors.As",
+            }
         ],
     }
+
     for task, matches in evidence.items():
         if matches:
-            answer = f"At `{c.reference}`, the code contains {', '.join('`' + m + '`' for m in matches)}. These are observable syntax/call sites. They alone do not establish end-to-end guarantees; inspect the surrounding control flow and called implementations before asserting them."
+            answer = (
+                f"At `{c.reference}`, the code contains "
+                + ", ".join("`" + m + "`" for m in matches)
+                + ". These are observable syntax/call sites. "
+                "They alone do not establish end-to-end guarantees; "
+                "inspect the surrounding control flow and called implementations before asserting them."
+            )
+
             rows.append(
                 record(
                     c,
                     task,
                     prompt
-                    + f"Identify explicit {task} constructs or calls. What can this evidence establish?",
+                    + f"Identify explicit {task} constructs or calls. "
+                    "What can this evidence establish?",
                     answer,
                 )
             )
-    # A grounded location task includes the declaration rather than a made-up feature description.
-    rows.append(
-        record(
-            c,
-            "location",
-            f"Locate `{c.symbol}` in repository `{c.repo}` (package `{c.facts.get('package', '')}`).",
-            f"`{c.symbol}` is declared at `{c.reference}` as a Go {c.symbol_type}.",
-        )
-    )
-    return [row for row in rows if all(safe(m["content"]) for m in row["messages"])]
 
+    return [
+        row
+        for row in rows
+        if all(safe(m["content"]) for m in row["messages"])
+    ]
 
 def assignments(
     files: list[SourceFile], chunks: list[Chunk], validation_fraction: float

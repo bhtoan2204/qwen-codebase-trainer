@@ -274,6 +274,42 @@ SCENARIOS = [
         "Separate authorization/capture status from clearing and settlement evidence. Correlate provider operations and settlement records, account for documented fees/reversals, and preserve unresolved differences. Do not infer settlement timing or guarantees from a status-query method name.",
         "Compare successful operational status with missing settlement evidence and retain an actionable discrepancy.",
     ),
+    Scenario(
+    "snapshot_replay_range",
+    "event_sourcing",
+    "architecture",
+    "How should an aggregate be reconstructed from a snapshot at version 40 when the current stream version is 47?",
+    "A valid aggregate snapshot represents state through version 40 and the event stream contains later versions through 47.",
+    "Load the snapshot state first, then replay only the events after the snapshot in order, conceptually versions 41 through 47. The final aggregate state should represent version 47. Missing, duplicated, or out-of-order events should be treated as an inconsistency rather than silently skipped.",
+    "Create a snapshot at version 40, append events through version 47, reload the aggregate, and verify the reconstructed state and version match 47.",
+    ),
+    Scenario(
+        "snapshot_missing_event",
+        "event_sourcing",
+        "failure_scenario",
+        "What should happen if an event required after the snapshot is missing?",
+        "A snapshot is available at version 40, but the persisted stream has a gap before version 47.",
+        "Do not silently reconstruct a partial aggregate as if it were current. Event-sourced state depends on the complete ordered event sequence after the snapshot. Surface the inconsistency and prevent the incomplete aggregate from being treated as authoritative.",
+        "Remove one event between the snapshot and current version and verify reconstruction fails or is explicitly marked inconsistent.",
+    ),
+    Scenario(
+        "snapshot_stale_but_valid",
+        "event_sourcing",
+        "concept",
+        "Is an old snapshot invalid merely because newer events exist?",
+        "The snapshot is several versions behind the current aggregate stream.",
+        "No. A snapshot can be stale but valid if it represents an exact prefix of the event stream. Reconstruct by replaying the later events after the snapshot. Staleness affects replay cost, not correctness, as long as the snapshot and subsequent event sequence are consistent.",
+        "Load snapshots at multiple older versions and verify replay reaches the same final aggregate state.",
+    ),
+    Scenario(
+        "snapshot_version_false_match",
+        "retrieval_grounding",
+        "bad_grounding",
+        "Can an unrelated configuration field named version be used as evidence for event-stream snapshot reconstruction?",
+        "Search results contain configuration files with fields such as version: 2 while the question concerns aggregate snapshot versions.",
+        "No. Lexical overlap on the word version is insufficient. Snapshot and aggregate version reasoning must be grounded in event-store, aggregate, snapshot, or replay implementation evidence.",
+        "Inject unrelated configuration results into retrieval and verify they are ignored for snapshot reasoning.",
+    ),
 ]
 
 # Each case has a distinct failure/invariant and an explicit eligible evidence pattern.

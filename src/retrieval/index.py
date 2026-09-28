@@ -19,6 +19,59 @@ from src.retrieval.embeddings import Embedder, tokens
 from src.security.scanner import VERSION as SECURITY_VERSION
 from src.security.scanner import safe
 
+def source_weight(chunk: Chunk, query: str) -> float:
+    path = chunk.path.lower()
+    q = query.lower()
+
+    architecture_terms = (
+        "snapshot",
+        "aggregate",
+        "event stream",
+        "event sourcing",
+        "replay",
+        "idempot",
+        "outbox",
+        "transaction",
+        "reconciliation",
+        "payment",
+        "refund",
+        "callback",
+        "webhook",
+        "projection",
+    )
+
+    is_architecture_query = any(term in q for term in architecture_terms)
+
+    if not is_architecture_query:
+        return 1.0
+
+    # Strong domain/code evidence
+    if path.endswith(".go"):
+        return 1.30
+
+    if path.endswith(".proto"):
+        return 1.10
+
+    if path.endswith(".md"):
+        return 0.90
+
+    # Noise for architecture questions
+    if ".golangci" in path:
+        return 0.05
+
+    if "/.vscode/" in path or ".vscode/" in path:
+        return 0.05
+
+    if "/.github/" in path or ".github/" in path:
+        return 0.10
+
+    if path.endswith((".yml", ".yaml")):
+        return 0.20
+
+    if path.endswith(".json"):
+        return 0.40
+
+    return 1.0
 
 class Index(AbstractContextManager["Index"]):
     """SQLite authoritative metadata + durable vectors; Qdrant local search projection.
@@ -191,13 +244,26 @@ class Index(AbstractContextManager["Index"]):
             lexical = []
             for c, d in zip(chunks, docs, strict=True):
                 score = sum(
-                    math.log(1 + (len(docs) - frequency[t] + 0.5) / (frequency[t] + 0.5))
+                    math.log(
+                        1 + (len(docs) - frequency[t] + 0.5)
+                        / (frequency[t] + 0.5)
+                    )
                     * d[t]
                     * 2.5
-                    / (d[t] + 1.5 * (0.25 + 0.75 * sum(d.values()) / average))
+                    / (
+                        d[t]
+                        + 1.5
+                        * (
+                            0.25
+                            + 0.75 * sum(d.values()) / average
+                        )
+                    )
                     for t in terms
                     if d[t]
                 )
+
+                score *= source_weight(c, query)
+
                 if score > 0:
                     lexical.append((c.id, score))
             rankings.append(sorted(lexical, key=lambda p: (-p[1], p[0]))[: max(50, top_k * 4)])
@@ -205,17 +271,34 @@ class Index(AbstractContextManager["Index"]):
             result = self.client.query_points(
                 "code", query=self.embedder.encode([query])[0], limit=max(50, top_k * 4)
             )
+            lookup = {c.id: c for c in chunks}
+
             rankings.append(
                 [
-                    (str(point.id).replace("-", ""), point.score)
+                    (
+                        str(point.id).replace("-", ""),
+                        point.score
+                        * source_weight(
+                            lookup[str(point.id).replace("-", "")],
+                            query,
+                        ),
+                    )
                     for point in result.points
-                    if point.score > 0 and str(point.id).replace("-", "") in searchable
+                    if point.score > 0
+                    and str(point.id).replace("-", "") in searchable
                 ]
             )
-        for ranking in rankings:
-            for rank, (id_, score) in enumerate(ranking, 1):
-                scores[id_] = scores.get(id_, 0) + (1 / (60 + rank) if mode == "hybrid" else score)
         lookup = {c.id: c for c in chunks}
+        for ranking in rankings:
+            for rank, (id_, raw_score) in enumerate(ranking, 1):
+                if mode == "hybrid":
+                    weight = source_weight(lookup[id_], query)
+
+                    scores[id_] = scores.get(id_, 0) + (
+                        weight / (60 + rank)
+                    )
+                else:
+                    scores[id_] = scores.get(id_, 0) + raw_score
         return [
             {**lookup[id_].to_dict(), "score": score, "reference": lookup[id_].reference}
             for id_, score in sorted(scores.items(), key=lambda p: (-p[1], p[0]))[:top_k]
