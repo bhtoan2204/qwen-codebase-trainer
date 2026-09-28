@@ -1,0 +1,50 @@
+# CPU-only stack. Payment repos are mounted read-only; outputs stay in this project.
+#   docker-compose run --rm pipeline scan
+#   docker-compose run --rm pipeline index
+#   docker-compose run --rm pipeline dataset
+#   docker-compose run --rm train
+x-common: &common
+  build: .
+  image: localhost/qwen-codebase-trainer:cpu
+  environment:
+    WORKSPACE_ROOT: /workspace
+    DATA_DIR: /app/data
+    ARTIFACTS_DIR: /app/artifacts
+    EMBEDDING_MODEL: hashing-v1
+    HF_HOME: /cache/huggingface
+  volumes:
+    - ..:/workspace:ro
+    - ./data:/app/data
+    - ./artifacts:/app/artifacts
+    - ./outputs:/app/outputs
+    - ./src:/app/src:ro
+    - ./scripts:/app/scripts:ro
+    - hf-cache:/cache/huggingface
+  # Hide this project from the scan (inside the container it lives at /app, not /workspace).
+  tmpfs:
+    - /workspace/qwen-codebase-trainer:notmpcopyup
+
+services:
+  pipeline:
+    <<: *common
+
+  train:
+    <<: *common
+    entrypoint: ["python", "scripts/train_cpu.py"]
+    environment:
+      WORKSPACE_ROOT: /workspace
+      HF_HOME: /cache/huggingface
+      BASE_MODEL: ${BASE_MODEL:-Qwen/Qwen3-0.6B}
+      SEQUENCE_LEN: ${SEQUENCE_LEN:-1024}
+      EPOCHS: ${EPOCHS:-1}
+      MAX_STEPS: ${MAX_STEPS:--1}
+      MICRO_BATCH_SIZE: ${MICRO_BATCH_SIZE:-2}
+      GRADIENT_ACCUMULATION_STEPS: ${GRADIENT_ACCUMULATION_STEPS:-8}
+      LEARNING_RATE: ${LEARNING_RATE:-0.0002}
+      LORA_R: ${LORA_R:-16}
+      LORA_ALPHA: ${LORA_ALPHA:-32}
+      TORCH_THREADS: ${TORCH_THREADS:-16}
+      OUTPUT_DIR: ${OUTPUT_DIR:-/app/outputs/qwen3-0.6b-lora-cpu}
+
+volumes:
+  hf-cache:

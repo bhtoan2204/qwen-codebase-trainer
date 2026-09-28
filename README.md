@@ -307,3 +307,27 @@ Python 3.11 environment. See `artifacts/training-run/result.json`, `status.json`
 `train.log`, and `requirements.lock.txt` for the completed run and exact environment.
 This later training run supersedes the earlier preparation-only validation notes
 for CUDA training and model inference; merging and the four-way evaluation remain separate.
+
+## Docker / Podman (CPU-only)
+
+For machines without a usable CUDA GPU. `docker-compose.yml` mounts the sibling repositories
+read-only at `/workspace`, hides this project from the scan, and writes to `data/`,
+`artifacts/` and `outputs/`. `scripts/train_cpu.py` runs plain Transformers + PEFT LoRA
+(fp32, no bitsandbytes/Axolotl) with assistant-only loss, and skips `location` tasks as the
+GPU run did.
+
+```bash
+docker-compose build
+docker-compose run --rm pipeline scan
+docker-compose run --rm pipeline index
+docker-compose run --rm pipeline dataset
+docker-compose up -d train          # resumes from the latest checkpoint if present
+podman logs -f qwen-codebase-trainer_train_1
+```
+
+Defaults: `BASE_MODEL=Qwen/Qwen3-0.6B`, `SEQUENCE_LEN=1024`, `EPOCHS=1`, micro batch 2 x
+accumulation 8, `TORCH_THREADS=16`. On an i7-13700 with 16 GB RAM one epoch over 753
+examples took 50 minutes (about 4 s per sample, peak about 3.5 GB RSS); validation loss went
+from 2.33 to 0.079 on this templated dataset. Larger bases are much slower on
+CPU and Qwen3-4B in fp32 does not fit in 16 GB. The adapter is written to
+`outputs/qwen3-0.6b-lora-cpu` with `result.json`.
