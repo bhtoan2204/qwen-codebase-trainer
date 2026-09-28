@@ -1,0 +1,733 @@
+[
+  {
+    "title": "Payment system",
+    "url": "https://en.wikipedia.org/wiki/Payment_system",
+    "category": "payment_domain",
+    "priority": "P0",
+    "family": "payment",
+    "tags": [
+      "payment",
+      "backend",
+      "payment"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Payment system: background for payment reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Payment gateway",
+    "url": "https://en.wikipedia.org/wiki/Payment_gateway",
+    "category": "payment_domain",
+    "priority": "P0",
+    "family": "payment",
+    "tags": [
+      "payment",
+      "backend",
+      "payment"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Payment gateway: background for payment reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Payment processor",
+    "url": "https://en.wikipedia.org/wiki/Payment_processor",
+    "category": "payment_domain",
+    "priority": "P0",
+    "family": "payment",
+    "tags": [
+      "payment",
+      "backend",
+      "payment"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Payment processor: background for payment reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Payment service provider",
+    "url": "https://en.wikipedia.org/wiki/Payment_service_provider",
+    "category": "payment_domain",
+    "priority": "P0",
+    "family": "payment",
+    "tags": [
+      "payment",
+      "backend",
+      "payment"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Payment service provider: background for payment reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Acquiring bank",
+    "url": "https://en.wikipedia.org/wiki/Acquiring_bank",
+    "category": "payment_domain",
+    "priority": "P1",
+    "family": "payment",
+    "tags": [
+      "payment",
+      "backend",
+      "payment"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Acquiring bank: background for payment reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Issuing bank",
+    "url": "https://en.wikipedia.org/wiki/Issuing_bank",
+    "category": "payment_domain",
+    "priority": "P1",
+    "family": "payment",
+    "tags": [
+      "payment",
+      "backend",
+      "payment"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Issuing bank: background for payment reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "ISO 8583",
+    "url": "https://en.wikipedia.org/wiki/ISO_8583",
+    "category": "payment_domain",
+    "priority": "P1",
+    "family": "payment",
+    "tags": [
+      "payment",
+      "backend",
+      "payment"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "ISO 8583: background for payment reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "3-D Secure",
+    "url": "https://en.wikipedia.org/wiki/3-D_Secure",
+    "category": "payment_domain",
+    "priority": "P1",
+    "family": "security",
+    "tags": [
+      "payment",
+      "backend",
+      "security"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "3-D Secure: background for security reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Tokenization (data security)",
+    "url": "https://en.wikipedia.org/wiki/Tokenization_(data_security)",
+    "category": "payment_domain",
+    "priority": "P1",
+    "family": "security",
+    "tags": [
+      "payment",
+      "backend",
+      "security"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Tokenization (data security): background for security reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Payment Card Industry Data Security Standard",
+    "url": "https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard",
+    "category": "payment_domain",
+    "priority": "P1",
+    "family": "security",
+    "tags": [
+      "payment",
+      "backend",
+      "security"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Payment Card Industry Data Security Standard: background for security reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Chargeback",
+    "url": "https://en.wikipedia.org/wiki/Chargeback",
+    "category": "payment_domain",
+    "priority": "P0",
+    "family": "reconciliation",
+    "tags": [
+      "payment",
+      "backend",
+      "reconciliation"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Chargeback: background for reconciliation reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Database transaction",
+    "url": "https://en.wikipedia.org/wiki/Database_transaction",
+    "category": "transaction_consistency",
+    "priority": "P0",
+    "family": "atomicity",
+    "tags": [
+      "payment",
+      "backend",
+      "atomicity"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Database transaction: background for atomicity reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "ACID",
+    "url": "https://en.wikipedia.org/wiki/ACID",
+    "category": "transaction_consistency",
+    "priority": "P0",
+    "family": "atomicity",
+    "tags": [
+      "payment",
+      "backend",
+      "atomicity"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "ACID: background for atomicity reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Isolation (database systems)",
+    "url": "https://en.wikipedia.org/wiki/Isolation_(database_systems)",
+    "category": "transaction_consistency",
+    "priority": "P0",
+    "family": "concurrency",
+    "tags": [
+      "payment",
+      "backend",
+      "concurrency"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Isolation (database systems): background for concurrency reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Serializability",
+    "url": "https://en.wikipedia.org/wiki/Serializability",
+    "category": "transaction_consistency",
+    "priority": "P1",
+    "family": "concurrency",
+    "tags": [
+      "payment",
+      "backend",
+      "concurrency"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Serializability: background for concurrency reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Optimistic concurrency control",
+    "url": "https://en.wikipedia.org/wiki/Optimistic_concurrency_control",
+    "category": "transaction_consistency",
+    "priority": "P0",
+    "family": "concurrency",
+    "tags": [
+      "payment",
+      "backend",
+      "concurrency"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Optimistic concurrency control: background for concurrency reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Multiversion concurrency control",
+    "url": "https://en.wikipedia.org/wiki/Multiversion_concurrency_control",
+    "category": "transaction_consistency",
+    "priority": "P1",
+    "family": "concurrency",
+    "tags": [
+      "payment",
+      "backend",
+      "concurrency"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Multiversion concurrency control: background for concurrency reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Distributed transaction",
+    "url": "https://en.wikipedia.org/wiki/Distributed_transaction",
+    "category": "transaction_consistency",
+    "priority": "P1",
+    "family": "atomicity",
+    "tags": [
+      "payment",
+      "backend",
+      "atomicity"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Distributed transaction: background for atomicity reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Two-phase commit protocol",
+    "url": "https://en.wikipedia.org/wiki/Two-phase_commit_protocol",
+    "category": "transaction_consistency",
+    "priority": "P1",
+    "family": "atomicity",
+    "tags": [
+      "payment",
+      "backend",
+      "atomicity"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Two-phase commit protocol: background for atomicity reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Idempotence",
+    "url": "https://en.wikipedia.org/wiki/Idempotence",
+    "category": "transaction_consistency",
+    "priority": "P0",
+    "family": "idempotency",
+    "tags": [
+      "payment",
+      "backend",
+      "idempotency"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Idempotence: background for idempotency reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Eventual consistency",
+    "url": "https://en.wikipedia.org/wiki/Eventual_consistency",
+    "category": "distributed_system",
+    "priority": "P0",
+    "family": "consistency",
+    "tags": [
+      "payment",
+      "backend",
+      "consistency"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Eventual consistency: background for consistency reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "CAP theorem",
+    "url": "https://en.wikipedia.org/wiki/CAP_theorem",
+    "category": "distributed_system",
+    "priority": "P1",
+    "family": "consistency",
+    "tags": [
+      "payment",
+      "backend",
+      "consistency"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "CAP theorem: background for consistency reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Message queue",
+    "url": "https://en.wikipedia.org/wiki/Message_queue",
+    "category": "messaging",
+    "priority": "P0",
+    "family": "messaging",
+    "tags": [
+      "payment",
+      "backend",
+      "messaging"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Message queue: background for messaging reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Publish–subscribe pattern",
+    "url": "https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern",
+    "category": "messaging",
+    "priority": "P1",
+    "family": "messaging",
+    "tags": [
+      "payment",
+      "backend",
+      "messaging"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Publish–subscribe pattern: background for messaging reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Apache Kafka",
+    "url": "https://en.wikipedia.org/wiki/Apache_Kafka",
+    "category": "messaging",
+    "priority": "P0",
+    "family": "messaging",
+    "tags": [
+      "payment",
+      "backend",
+      "messaging"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Apache Kafka: background for messaging reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Webhook",
+    "url": "https://en.wikipedia.org/wiki/Webhook",
+    "category": "messaging",
+    "priority": "P0",
+    "family": "callbacks",
+    "tags": [
+      "payment",
+      "backend",
+      "callbacks"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Webhook: background for callbacks reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Inbox and outbox pattern",
+    "url": "https://en.wikipedia.org/wiki/Inbox_and_outbox_pattern",
+    "category": "messaging",
+    "priority": "P0",
+    "family": "outbox",
+    "tags": [
+      "payment",
+      "backend",
+      "outbox"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Inbox and outbox pattern: background for outbox reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Software fault tolerance",
+    "url": "https://en.wikipedia.org/wiki/Software_fault_tolerance",
+    "category": "reliability",
+    "priority": "P2",
+    "family": "retry",
+    "tags": [
+      "payment",
+      "backend",
+      "retry"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Software fault tolerance, including retry and recovery. Wikipedia has no standalone Retry pattern article; use this and Exponential backoff instead."
+  },
+  {
+    "title": "Exponential backoff",
+    "url": "https://en.wikipedia.org/wiki/Exponential_backoff",
+    "category": "reliability",
+    "priority": "P0",
+    "family": "retry",
+    "tags": [
+      "payment",
+      "backend",
+      "retry"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Exponential backoff: background for retry reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Circuit breaker design pattern",
+    "url": "https://en.wikipedia.org/wiki/Circuit_breaker_design_pattern",
+    "category": "reliability",
+    "priority": "P1",
+    "family": "resilience",
+    "tags": [
+      "payment",
+      "backend",
+      "resilience"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Circuit breaker design pattern: background for resilience reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Rate limiting",
+    "url": "https://en.wikipedia.org/wiki/Rate_limiting",
+    "category": "reliability",
+    "priority": "P1",
+    "family": "resilience",
+    "tags": [
+      "payment",
+      "backend",
+      "resilience"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Rate limiting: background for resilience reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Double-entry bookkeeping",
+    "url": "https://en.wikipedia.org/wiki/Double-entry_bookkeeping",
+    "category": "ledger",
+    "priority": "P0",
+    "family": "ledger",
+    "tags": [
+      "payment",
+      "backend",
+      "ledger"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Double-entry bookkeeping: background for ledger reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "General ledger",
+    "url": "https://en.wikipedia.org/wiki/General_ledger",
+    "category": "ledger",
+    "priority": "P1",
+    "family": "ledger",
+    "tags": [
+      "payment",
+      "backend",
+      "ledger"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "General ledger: background for ledger reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Reconciliation (accounting)",
+    "url": "https://en.wikipedia.org/wiki/Reconciliation_(accounting)",
+    "category": "reconciliation",
+    "priority": "P0",
+    "family": "reconciliation",
+    "tags": [
+      "payment",
+      "backend",
+      "reconciliation"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Reconciliation (accounting): background for reconciliation reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Clearing (finance)",
+    "url": "https://en.wikipedia.org/wiki/Clearing_(finance)",
+    "category": "reconciliation",
+    "priority": "P1",
+    "family": "settlement",
+    "tags": [
+      "payment",
+      "backend",
+      "settlement"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Clearing (finance): background for settlement reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Settlement (finance)",
+    "url": "https://en.wikipedia.org/wiki/Settlement_(finance)",
+    "category": "reconciliation",
+    "priority": "P1",
+    "family": "settlement",
+    "tags": [
+      "payment",
+      "backend",
+      "settlement"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Settlement (finance): background for settlement reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "HMAC",
+    "url": "https://en.wikipedia.org/wiki/HMAC",
+    "category": "security",
+    "priority": "P0",
+    "family": "authentication",
+    "tags": [
+      "payment",
+      "backend",
+      "authentication"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "HMAC: background for authentication reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Digital signature",
+    "url": "https://en.wikipedia.org/wiki/Digital_signature",
+    "category": "security",
+    "priority": "P1",
+    "family": "authentication",
+    "tags": [
+      "payment",
+      "backend",
+      "authentication"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Digital signature: background for authentication reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Replay attack",
+    "url": "https://en.wikipedia.org/wiki/Replay_attack",
+    "category": "security",
+    "priority": "P0",
+    "family": "replay",
+    "tags": [
+      "payment",
+      "backend",
+      "replay"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Replay attack: background for replay reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Transport Layer Security",
+    "url": "https://en.wikipedia.org/wiki/Transport_Layer_Security",
+    "category": "security",
+    "priority": "P1",
+    "family": "security",
+    "tags": [
+      "payment",
+      "backend",
+      "security"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Transport Layer Security: background for security reasoning in payment backends; provider guarantees require separate evidence."
+  },
+  {
+    "title": "Event store",
+    "url": "https://en.wikipedia.org/wiki/Event_store",
+    "category": "distributed_system",
+    "priority": "P0",
+    "family": "event_sourcing",
+    "tags": [
+      "event_sourcing",
+      "payment",
+      "architecture"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Event-store reconstruction background for event-sourcing scenarios; no standalone English Event sourcing article was available at fetch time."
+  },
+  {
+    "title": "Command–query separation",
+    "url": "https://en.wikipedia.org/wiki/Command%E2%80%93query_separation",
+    "category": "distributed_system",
+    "priority": "P0",
+    "family": "cqrs",
+    "tags": [
+      "cqrs",
+      "payment",
+      "architecture"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Command–query separation: conceptual background for hypothetical payment architecture scenarios; local guarantees require implementation evidence."
+  },
+  {
+    "title": "Domain-driven design",
+    "url": "https://en.wikipedia.org/wiki/Domain-driven_design",
+    "category": "distributed_system",
+    "priority": "P0",
+    "family": "ddd",
+    "tags": [
+      "ddd",
+      "payment",
+      "architecture"
+    ],
+    "license": {
+      "name": "CC BY-SA 4.0",
+      "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    },
+    "description": "Domain-driven design: conceptual background for hypothetical payment architecture scenarios; local guarantees require implementation evidence."
+  }
+]

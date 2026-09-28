@@ -22,6 +22,10 @@ def parser() -> argparse.ArgumentParser:
             type=int,
             help="Bound files for a sample; index samples use a separate directory",
         )
+        if name == "dataset":
+            from src.dataset.wikipedia.pipeline import add_cli
+
+            add_cli(command)
     search = sub.add_parser("search")
     search.add_argument("query")
     search.add_argument("--top-k", type=int, default=5)
@@ -47,6 +51,12 @@ def parser() -> argparse.ArgumentParser:
 
 
 def run(args: argparse.Namespace, settings: Settings) -> None:
+    if args.command == "dataset" and getattr(args, "dataset_kind", None) == "wikipedia":
+        from src.dataset.wikipedia.pipeline import run as run_wikipedia
+
+        print(json.dumps(run_wikipedia(args, settings), indent=2))
+        return
+
     from src.retrieval.index import Index
     from src.scanner.repositories import scan
 

@@ -331,3 +331,74 @@ examples took 50 minutes (about 4 s per sample, peak about 3.5 GB RSS); validati
 from 2.33 to 0.079 on this templated dataset. Larger bases are much slower on
 CPU and Qwen3-4B in fp32 does not fit in 16 GB. The adapter is written to
 `outputs/qwen3-0.6b-lora-cpu` with `result.json`.
+
+## Wikipedia → payment engineering dataset
+
+The Wikipedia pipeline combines attributed source facts with screened patterns from the configured
+payment repositories. It requires **at least 50% code-linked examples in every split**, not just
+across the dataset. A linked example includes a real snippet, repository/path/symbol/line range,
+commit and content hashes, an observed behavior, and a concrete engineering application.
+AST call evidence and scenario-specific compatibility checks prevent unrelated file-name matches.
+Test helpers are excluded from production evidence. Provider guarantees are never inferred from
+an API name or deterministic request ID.
+
+Install the base package and local semantic embedding dependency:
+
+```bash
+python -m pip install -e '.[embeddings,dev]'
+python -m src.cli dataset wikipedia build --all
+python -m src.cli dataset wikipedia validate --all --offline
+```
+
+On this machine the prepared training environment can run the pipeline:
+
+```bash
+env -u PYTHONPATH .venv-train/bin/python -m src.cli dataset wikipedia build --all --offline
+```
+
+Offline mode requires cached articles and the cached sentence-transformer model. The first online
+build downloads public Wikipedia content and model weights; proprietary code is processed locally.
+`datasets/payment_wikipedia_sources.json` lists 40 sources across eight categories and P0/P1/P2
+priorities. Omit `--all` to fetch/process P0 only, use repeatable `--title` to select exact titles,
+and use `--refresh` to update cached Wikipedia revisions. Each stage also runs independently:
+
+```bash
+python -m src.cli dataset wikipedia fetch --all
+python -m src.cli dataset wikipedia process --all
+python -m src.cli dataset wikipedia generate --offline
+python -m src.cli dataset wikipedia validate --offline
+```
+
+`generate` uses the last processed source selection. `validate` reconstructs knowledge from cached
+raw HTML, checks hashes, rescans current code, checks all provenance and messages exports, and
+repeats semantic deduplication. It fails on stale or edited evidence. Raw article HTML is never
+executed. Source facts are extractive; engineering interpretations and hypothetical failure
+premises are separately labeled. The curated generator covers nine question types and 27
+scenarios, including duplicate delivery/refunds, races, publish gaps, outages, replay and unsafe
+designs. Extend the reviewed scenario library and compatibility rules to grow coverage; increasing
+`--per-scenario` alone does not create useful diversity because equivalent scenarios are deduplicated.
+
+Outputs:
+
+- `data/raw/wikipedia/`: article HTML, revisions, attribution, license and fetch report.
+- `data/processed/wikipedia/`: cleaned sections, semantic chunks, separated facts/interpretations,
+  generation/validation reports and output hash manifest.
+- `data/processed/payment_{train,validation,test}.jsonl`: instruction/input/output with full provenance.
+- `data/processed/payment_{train,validation,test}.messages.jsonl`: chat-format exports for training.
+- `artifacts/wikipedia/`: screened code inventory and manual sample review.
+
+Deduplication uses local `sentence-transformers/all-MiniLM-L6-v2` cosine similarity (default .92),
+with grounded candidates preferred. Hash-only embeddings do not satisfy validation. Source pages,
+concept families, scenarios, shared code files and identical snippets form indivisible split groups.
+The target is 80/10/10; small connected groups can make exact proportions impossible. Reports show
+actual sizes. Grounding below 50%, leakage, missing evidence or fewer than three independent groups
+fail the build. Short sections and indivisible sentences are marked as chunk-size exceptions;
+token counts are estimates, not the training model's tokenizer.
+
+This is a small curated seed dataset, not a claim that fine-tuning improves the model. Inspect the
+sample and evaluate held-out tasks before expanding it. Use only the train messages export for
+training, validation for tuning, and reserve test for final evaluation. This command prepares data;
+it does not launch training or overwrite the existing `data/train.jsonl` or adapters.
+Wikipedia material retains revision-specific attribution and CC BY-SA licensing metadata; local
+code retains its existing ownership. Generated files containing proprietary snippets remain local
+and git-ignored. Review licensing before redistributing a combined dataset.

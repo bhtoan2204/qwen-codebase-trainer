@@ -48,7 +48,7 @@ PATTERNS = {
     "customer_literal": re.compile(
         r"""(?i)["']?(?:customer[_-]?id|account[_-]?(?:id|number)|card[_-]?number|phone|email|merchant[_-]?id)["']?\s*[:=]\s*(?:["'][^"'\n]+["']|\d{5,})"""
     ),
-    "environment_value": re.compile(r"(?im)^\s*(?:export\s+)?[A-Z][A-Z0-9_]{2,}\s*=\s*\S+"),
+    "environment_value": re.compile(r"(?m)^\s*(?:export\s+)?[A-Z][A-Z0-9_]{2,}\s*=\s*\S+"),
     "sql_data": re.compile(r"(?i)\b(?:INSERT\s+INTO|COPY\s+\S+\s+FROM)\b"),
 }
 
